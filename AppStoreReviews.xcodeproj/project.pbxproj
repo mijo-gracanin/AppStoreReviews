@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E94B0AF1FD4B91D00E3EF94 /* SlackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E94B0AE1FD4B91D00E3EF94 /* SlackController.swift */; };
 		2EA2ED801FD2E88C00D8EA75 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2ED7F1FD2E88C00D8EA75 /* main.swift */; };
+		2EA2ED881FD2E99100D8EA75 /* ReviewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2ED871FD2E99100D8EA75 /* ReviewsController.swift */; };
+		2EA2ED8C1FD3342500D8EA75 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2ED8B1FD3342500D8EA75 /* Review.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +26,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E94B0AE1FD4B91D00E3EF94 /* SlackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlackController.swift; sourceTree = "<group>"; };
 		2EA2ED7C1FD2E88C00D8EA75 /* AppStoreReviews */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AppStoreReviews; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EA2ED7F1FD2E88C00D8EA75 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		2EA2ED871FD2E99100D8EA75 /* ReviewsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsController.swift; sourceTree = "<group>"; };
+		2EA2ED8B1FD3342500D8EA75 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +47,8 @@
 		2EA2ED731FD2E88C00D8EA75 = {
 			isa = PBXGroup;
 			children = (
+				2EA2ED8A1FD3341200D8EA75 /* Model */,
+				2EA2ED861FD2E96100D8EA75 /* Classes */,
 				2EA2ED7E1FD2E88C00D8EA75 /* AppStoreReviews */,
 				2EA2ED7D1FD2E88C00D8EA75 /* Products */,
 			);
@@ -60,6 +68,23 @@
 				2EA2ED7F1FD2E88C00D8EA75 /* main.swift */,
 			);
 			path = AppStoreReviews;
+			sourceTree = "<group>";
+		};
+		2EA2ED861FD2E96100D8EA75 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				2EA2ED871FD2E99100D8EA75 /* ReviewsController.swift */,
+				2E94B0AE1FD4B91D00E3EF94 /* SlackController.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		2EA2ED8A1FD3341200D8EA75 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2EA2ED8B1FD3342500D8EA75 /* Review.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +129,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 2EA2ED731FD2E88C00D8EA75;
 			productRefGroup = 2EA2ED7D1FD2E88C00D8EA75 /* Products */;
@@ -120,7 +146,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EA2ED881FD2E99100D8EA75 /* ReviewsController.swift in Sources */,
 				2EA2ED801FD2E88C00D8EA75 /* main.swift in Sources */,
+				2E94B0AF1FD4B91D00E3EF94 /* SlackController.swift in Sources */,
+				2EA2ED8C1FD3342500D8EA75 /* Review.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
