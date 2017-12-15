@@ -25,7 +25,7 @@ class SlackController {
         }
         
         let lastReviewId = UserDefaults.standard.string(forKey: first.appId)
-        
+        print("lastReviewId: \(String(describing: lastReviewId))")
         var newReviews: [Review] = []
         for review in reviews {
             if review.id == lastReviewId {
@@ -35,13 +35,15 @@ class SlackController {
             newReviews.append(review)
         }
         
+        print("Sending \(newReviews.count) reviews to Slack")
+        
         guard let newFirst = newReviews.first else {
             completion()
             return
         }
         UserDefaults.standard.set(newFirst.id, forKey: newFirst.appId)
         
-        send(reviews: newReviews, completion: completion)
+        send(reviews: newReviews.reversed(), completion: completion)
     }
     
     func send(reviews: [Review], completion: @escaping () -> Void) {
@@ -75,7 +77,7 @@ class SlackController {
             for _ in 0..<review.rating {
                 stars = "\(stars) :star:"
             }
-            let text = "*\(review.title)* \(stars)\n\(review.text)"
+            let text = "*\(review.title)* (\(review.version)) \(stars)\n\(review.text)"
             
             texts.append(text)
         }

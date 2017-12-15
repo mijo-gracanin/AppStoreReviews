@@ -44,7 +44,7 @@ class ReviewsController {
                     return
             }
             
-            for case let entry in entries.reversed() {
+            for case let entry in entries {
                 if let review = try? Review(json: entry, appId: strongSelf.appId, appName: name) {
                     reviews.append(review)
                 }

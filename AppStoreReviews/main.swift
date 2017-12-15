@@ -15,7 +15,7 @@ fileprivate func printHelp() {
     print("Usage:")
     print("AppStoreReviews -a <appId> -c <store_country> -s <slack_hook_id>")
     print("Only -a <appId> parameter is required")
-    print("Example: AppStoreReviews -a 918237645 -c us -s H025Z4HF2/C79K73V5F/mqYPNbojxiSAVhZ1E7msDfQW")
+    print("Example: AppStoreReviews -a 584557117 -c us -s H025Z4HF2/C79K73V5F/mqYPNbojxiSAVhZ1E7msDfQW")
 }
 
 let arguments = CommandLine.arguments
@@ -38,23 +38,23 @@ else {
             slackHook = arguments[index + 1]
         }
     }
-    
+
     let semaphore = DispatchSemaphore(value: 0)
-    
+
     let reviewsController = ReviewsController(appId: appId, country: country)
     let slackController = SlackController(slackHook: slackHook)
-    
+
     reviewsController.reviews() { reviews in
         if slackHook.isEmpty {
-            let json = slackController.getMessageJson(reviews: reviews)
-            print(json)
+            print(reviews)
         } else {
             slackController.sendOnlyNewReviews(reviews: reviews) {
+                print("")
                 semaphore.signal()
             }
         }
     }
-    
+
     semaphore.wait()
 }
 
