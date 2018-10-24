@@ -24,7 +24,7 @@ var appId = ""
 var country = ""
 var slackHook = ""
 
-if arguments.count % 2 == 0 {
+if arguments.count == 1 && arguments.count % 2 == 0 {
     printHelp()
 }
 else {

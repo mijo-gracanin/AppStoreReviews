@@ -38,7 +38,7 @@ class ReviewsController {
                 let feed = json["feed"] as? [String: Any],
                 let entries = feed["entry"] as? [[String: Any]],
                 let first = entries.first,
-                let nameDict = first["im:name"] as? [String: Any],
+                let nameDict = first["content"] as? [String: Any],
                 let name = nameDict["label"] as? String else {
                     completion(reviews)
                     return
