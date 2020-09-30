@@ -77,7 +77,7 @@ class SlackController {
             for _ in 0..<review.rating {
                 stars = "\(stars) :star:"
             }
-            let text = "*\(review.title)* (\(review.version)) \(stars)\n\(review.text)"
+            let text = "[\(review.appName)] *\(review.title)* (\(review.version)) \(stars)\n\(review.text)"
             
             texts.append(text)
         }
