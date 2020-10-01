@@ -11,36 +11,22 @@ import Foundation
 
 class ReviewsController {
     
-    private let reviewsURLFormat = "https://itunes.apple.com/%@rss/customerreviews/id=%@/sortBy=mostRecent/json"
-    private let appId: String
-    private let appName: String
-    private let country: String
-    private let rawURL: String
-    
-    init(appId: String, appName: String, country: String) {
-        self.appId = appId
-        self.appName = appName
-        self.country = country
+    class func getReviews(appId: String, appName: String, country: String, completion: @escaping ([Review]) -> Void) {
+        
+        let reviewsURLFormat = "https://itunes.apple.com/%@rss/customerreviews/id=%@/sortBy=mostRecent/json"
         let countryPath = country.count == 2 ? "\(country)/" : ""
-        rawURL = String(format: reviewsURLFormat, countryPath, appId)
-    }
-    
-    func reviews(completion: @escaping ([Review]) -> Void) {
+        let rawURL = String(format: reviewsURLFormat, countryPath, appId)
         
         guard let url = URL(string: rawURL) else {
             completion([])
             return
         }
         
-        let appName = self.appName
-        let country = self.country
-        
         let session = URLSession.shared
-        session.dataTask(with: url) { [weak self] (data, response, error) in
+        session.dataTask(with: url) { data, response, error in
             var reviews: [Review] = []
             
-            guard let strongSelf = self,
-                let data = data,
+            guard let data = data,
                 let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any],
                 let feed = json["feed"] as? [String: Any],
                 let entries = feed["entry"] as? [[String: Any]] else {
@@ -49,7 +35,7 @@ class ReviewsController {
             }
             
             for case let entry in entries {
-                if let review = try? Review(json: entry, appId: strongSelf.appId, appName: appName, country: country) {
+                if let review = try? Review(json: entry, appId: appId, appName: appName, country: country) {
                     reviews.append(review)
                 }
             }
