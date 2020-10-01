@@ -24,7 +24,7 @@ class SlackController {
             return
         }
         
-        let lastReviewId = UserDefaults.standard.string(forKey: first.appId)
+        let lastReviewId = UserDefaults.standard.string(forKey: first.defaultsKey)
         print("lastReviewId: \(String(describing: lastReviewId))")
         var newReviews: [Review] = []
         for review in reviews {
@@ -41,7 +41,7 @@ class SlackController {
             completion()
             return
         }
-        UserDefaults.standard.set(newFirst.id, forKey: newFirst.appId)
+        UserDefaults.standard.set(newFirst.id, forKey: newFirst.defaultsKey)
         
         send(reviews: newReviews.reversed(), completion: completion)
     }
@@ -77,7 +77,7 @@ class SlackController {
             for _ in 0..<review.rating {
                 stars = "\(stars) :star:"
             }
-            let text = "[\(review.appName)] *\(review.title)* (\(review.version)) \(stars)\n\(review.text)"
+            let text = "[\(review.appName), \(review.country)] *\(review.title)* (\(review.version)) \(stars)\n\(review.text)"
             
             texts.append(text)
         }
@@ -85,4 +85,6 @@ class SlackController {
         let joinedTexts = texts.joined(separator: "\n\n\n")
         return ["text": joinedTexts]
     }
+    
+    
 }

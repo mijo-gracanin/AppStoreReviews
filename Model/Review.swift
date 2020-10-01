@@ -17,6 +17,7 @@ enum SerializationError: Error {
 struct Review {
     let appId: String
     let appName: String
+    let country: String
     let id: String
     let version: String
     let rating: Int
@@ -26,7 +27,7 @@ struct Review {
 
 
 extension Review {
-    init(json: [String: Any], appId: String, appName: String) throws {
+    init(json: [String: Any], appId: String, appName: String, country: String) throws {
         
         guard let idDict = json["id"] as? [String: Any],
             let id = idDict["label"] as? String else {
@@ -56,10 +57,15 @@ extension Review {
         
         self.appId = appId
         self.appName = appName
+        self.country = country
         self.id = id
         self.title = title
         self.text = text
         self.rating = rating
         self.version = version
+    }
+    
+    var defaultsKey: String {
+        return "\(appName)_\(appId)_\(country)"
     }
 }

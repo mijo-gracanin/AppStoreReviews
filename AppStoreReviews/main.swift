@@ -13,39 +13,49 @@ print("AppStoreReview started \(Date())")
 
 fileprivate func printHelp() {
     print("Usage:")
-    print("AppStoreReviews -a <appId> -c <store_country> -s <slack_hook_id>")
-    print("Only -a <appId> parameter is required")
-    print("Example: AppStoreReviews -a 584557117 -c us -s H025Z4HF2/C79K73V5F/mqYPNbojxiSAVhZ1E7msDfQW")
+    print("AppStoreReviews -appId <appId> -appName <appName> -country <country> -slackHookId <slackHookId>")
+    print("Only -appId <appId> parameter is required")
+    print("Example: AppStoreReviews -appId 584557117 -appName Foo -country us -slackHookId H025Z4AC2/C79K73V5F/mqYPNbojxiSAVhZ1E7msDfQW")
 }
 
 let arguments = CommandLine.arguments
-let flags = Set(["-a", "-c", "-s"])
+let flags = Set(["-appId", "-appName", "-country", "-slackHookId"])
 var appId = ""
+var appName = ""
 var country = ""
-var slackHook = ""
+var slackHookId = ""
 
 if arguments.count == 1 && arguments.count % 2 == 0 {
     printHelp()
 }
 else {
-    for index in 1..<(arguments.count - 1) {
+    for index in 1..<(arguments.count) {
+        if index % 2 == 0 {
+            continue
+        }
+        
         let argument = arguments[index]
-        if argument == "-a" {
+        if argument == "-appId" {
             appId = arguments[index + 1]
-        } else if argument == "-c" {
+        } else if argument == "-appName" {
+            appName = arguments[index + 1]
+        } else if argument == "-country" {
             country = arguments[index + 1]
-        } else if argument == "-s" {
-            slackHook = arguments[index + 1]
+        } else if argument == "-slackHookId" {
+            slackHookId = arguments[index + 1]
+        } else {
+            printHelp()
+            exit(0)
         }
     }
 
     let semaphore = DispatchSemaphore(value: 0)
 
-    let reviewsController = ReviewsController(appId: appId, country: country)
-    let slackController = SlackController(slackHook: slackHook)
+    let reviewsController = ReviewsController(appId: appId, appName: appName, country: country)
+    let slackController = SlackController(slackHook: slackHookId)
 
     reviewsController.reviews() { reviews in
-        if slackHook.isEmpty {
+        if slackHookId.isEmpty {
             print(reviews)
         } else {
             slackController.sendOnlyNewReviews(reviews: reviews) {

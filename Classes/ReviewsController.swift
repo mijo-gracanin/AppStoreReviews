@@ -13,10 +13,14 @@ class ReviewsController {
     
     private let reviewsURLFormat = "https://itunes.apple.com/%@rss/customerreviews/id=%@/sortBy=mostRecent/json"
     private let appId: String
+    private let appName: String
+    private let country: String
     private let rawURL: String
     
-    init(appId: String, country: String) {
+    init(appId: String, appName: String, country: String) {
         self.appId = appId
+        self.appName = appName
+        self.country = country
         let countryPath = country.count == 2 ? "\(country)/" : ""
         rawURL = String(format: reviewsURLFormat, countryPath, appId)
     }
@@ -28,6 +32,9 @@ class ReviewsController {
             return
         }
         
+        let appName = self.appName
+        let country = self.country
+        
         let session = URLSession.shared
         session.dataTask(with: url) { [weak self] (data, response, error) in
             var reviews: [Review] = []
@@ -36,16 +43,13 @@ class ReviewsController {
                 let data = data,
                 let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any],
                 let feed = json["feed"] as? [String: Any],
-                let entries = feed["entry"] as? [[String: Any]],
-                let first = entries.first,
-                let nameDict = first["content"] as? [String: Any],
-                let name = nameDict["label"] as? String else {
+                let entries = feed["entry"] as? [[String: Any]] else {
                     completion(reviews)
                     return
             }
             
             for case let entry in entries {
-                if let review = try? Review(json: entry, appId: strongSelf.appId, appName: name) {
+                if let review = try? Review(json: entry, appId: strongSelf.appId, appName: appName, country: country) {
                     reviews.append(review)
                 }
             }
