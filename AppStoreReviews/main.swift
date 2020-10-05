@@ -8,9 +8,6 @@
 
 import Foundation
 
-
-print("AppStoreReview started \(Date())")
-
 fileprivate func printHelp() {
     print("Usage:")
     print("AppStoreReviews -appId <appId> -appName <appName> -country <country> -slackHookId <slackHookId>")
@@ -49,6 +46,8 @@ else {
             exit(0)
         }
     }
+    
+    print("AppStoreReview started \(Date()), appId: \(appId), appName: \(appName)")
 
     let semaphore = DispatchSemaphore(value: 0)
 

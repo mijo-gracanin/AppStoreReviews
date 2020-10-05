@@ -24,18 +24,23 @@ class SlackController {
             return
         }
         
-        let lastReviewId = UserDefaults.standard.string(forKey: first.defaultsKey)
-        print("lastReviewId: \(String(describing: lastReviewId))")
         var newReviews: [Review] = []
-        for review in reviews {
-            if review.id == lastReviewId {
-                break
-            }
+        
+        if let lastReviewId = UserDefaults.standard.string(forKey: first.defaultsKey) {
+            print("lastReviewId: \(lastReviewId)")
             
-            newReviews.append(review)
+            for review in reviews {
+                if review.id == lastReviewId {
+                    break
+                }
+                
+                newReviews.append(review)
+            }
+        } else {
+            newReviews.append(contentsOf: reviews)
         }
         
-        print("Sending \(newReviews.count) reviews to Slack")
+        print("Sending \(newReviews.count) reviews to Slack. DefaultsKey: \(first.defaultsKey)")
         
         guard let newFirst = newReviews.first else {
             completion()
